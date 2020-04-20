@@ -2,6 +2,7 @@ import sqlalchemy as sa
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.ext.declarative import declarative_base
 from doc_format import html_page
+from bottle import HTTPError
 
 DB_PATH = "sqlite:///albums.sqlite3"
 Base = declarative_base()
