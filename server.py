@@ -2,7 +2,8 @@ from bottle import route
 from bottle import run
 from bottle import HTTPError
 
-import album
+from album import albums_get
+
 
 @route("/albums/<artist>")
 def albums(artist):
