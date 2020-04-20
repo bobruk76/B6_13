@@ -70,20 +70,23 @@ class HTML(TopLevelTag):
                 f.write(out_str)
 
 def html_page(fn):
-    with HTML(output=None) as doc:
-        with TopLevelTag("head") as head:
-            with Tag("title") as title:
-                title.text = "hello"
-                head += title
-            doc += head
+    def wrapp(param):
+        with HTML(output=None) as doc:
+            with TopLevelTag("head") as head:
+                with Tag("title") as title:
+                    title.text = "hello"
+                    head += title
+                doc += head
 
-        with TopLevelTag("body") as body:
-            with Tag("h1", klass=("main-text",)) as h1:
-                h1.text = "Test"
-                body += h1
+            with TopLevelTag("body") as body:
+                with Tag("h1", klass=("main-text",)) as h1:
+                    h1.text = "Test"
+                    body += h1
 
-            with Tag("div", klass=("container", "container-fluid"), id="lead") as div:
-                div += fn()
-                body += div
+                with Tag("div", klass=("container", "container-fluid"), id="lead") as div:
+                    div += fn(param)
+                    body += div
 
-            doc += body
+                doc += body
+                return doc
+        return wrapp

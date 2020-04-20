@@ -40,4 +40,3 @@ def albums_get(artist):
         result = "Список альбомов {}<br>".format(artist)
         result += "<br>".join(album_names)
     return result
-
