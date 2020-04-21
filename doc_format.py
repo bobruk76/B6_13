@@ -72,14 +72,38 @@ class HTML(TopLevelTag):
 def html_page(fn):
     def wrapp(param):
         result = ''
-        with TopLevelTag("div") as body:
-            with Tag("h1", klass=("main-text",)) as h1:
-                h1.text = "Test"
-                body += h1
+        with HTML(output=None) as doc:
+            with TopLevelTag("head") as head:
 
-            with Tag("div", klass=("container", "container-fluid"), id="lead") as div:
-                div += fn(param)
-            result = body
+                with Tag("meta", charset="utf-8") as meta:
+                    head += meta
 
+                with Tag("link", rel="stylesheet", href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css") as link:
+                    head += link
+
+                with Tag("title") as title:
+                    title.text = "hello"
+                    head += title
+
+
+                doc += head
+
+            with TopLevelTag("body") as body:
+                with Tag("h1", klass=("main-text",)) as h1:
+                    h1.text = param
+                    body += h1
+
+                with Tag("div", klass=("container", "container-fluid"), id="lead") as div:
+                    with Tag("p") as paragraph:
+                        paragraph.text = fn(param)
+                        div += paragraph
+
+                    with Tag("img", is_single=True, src="/icon.png", data_image="responsive") as img:
+                        div += img
+
+                    body += div
+
+            doc += body
+            result = doc
         return result
     return wrapp
