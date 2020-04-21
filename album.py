@@ -22,6 +22,11 @@ def connect_db():
     session = sessionmaker(engine)
     return session()
 
+def ref_artists():
+    session = connect_db()
+    return set([item.artist for item in session.query(Album).all()])
+
+
 def find(artist):
     """
     Находит все альбомы в базе данных по заданному артисту
