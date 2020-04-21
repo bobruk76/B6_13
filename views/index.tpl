@@ -8,26 +8,27 @@
         <link rel="stylesheet" href="/static/css/form_style.css">
     </head>
     <body>
+        <div class="wrapper-first-page">
+            <header>
+                <nav class="site-menu">
+                    <ul>
+                        <li><a href="#">home</a></li>
+                        <li><a href="/albums/">Новый альбом</a></li>
+                    </ul>
+                </nav>
+            </header>
+        </div>
         <main>
             <section class="sixth-section">
                 <h1>
-                    Форма ввода нового диска
+                    Список артистов:
                 </h1>
+                <p>Выберите артиста из списка:</p>
                 <ul>
                     % for item in ref_artists:
                       <li><a href="/albums/{{item}}">{{item}}</a></li>
                     % end
                 </ul>
-                <div class="like-hr"></div>
-                <div class="second-block">
-                    <form id="album-form" class="album-form" action="" method="POST">
-                        <input id="you-name"  class="form-field" type="text" name="you-name" required  placeholder="Name">
-                        <input id="you-email"  class="form-field" type="email" name="you-email" required  placeholder="Your Mail">
-                        <textarea name="you-message" id="you-message" cols="30" rows="10"  class="form-field" placeholder="Type your message"></textarea>
-                        <button class="button" type="submit">subscribe</button>
-                    </form>
-
-                </div>
             </section>
         </main>
     </body>

@@ -23,6 +23,9 @@ def connect_db():
     return session()
 
 def ref_artists():
+    """
+    Находит всех артистов в базе данных
+    """
     session = connect_db()
     return set([item.artist for item in session.query(Album).all()])
 
@@ -37,7 +40,9 @@ def find(artist):
 
 @html_page
 def albums_get(artist):
-
+    """
+    из старой практики берется обертка для начальной страницы
+    """
     def to_div(string):
         return '<div class="disk-field disk"><p class="label">{}</p></div>'.format(string)
 

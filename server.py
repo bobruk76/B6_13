@@ -16,5 +16,10 @@ def albums(artist):
 def index():
     return {'ref_artists':album.ref_artists()}
 
+@get("/albums/")
+@view('form')
+def form():
+    return {}
+
 if __name__ == "__main__":
     run(host="localhost", port=8080, debug=True)
