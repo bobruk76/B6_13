@@ -1,0 +1,105 @@
+@import url('https://fonts.googleapis.com/css?family=Press+Start+2P&display=swap&subset=cyrillic,cyrillic-ext');
+
+body{
+  display: grid;
+  background:  rgba(180, 178, 178, 0.274);
+}
+
+h1 {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+
+  font-size: 5vw;
+  font-family: "Press Start 2P", Helvetica, Arial, sans-serif;
+}
+
+h2 {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+
+  font-size: 3vw;
+}
+p {
+  font-size: 2vw;
+}
+.disk-field {
+  margin: 5px;
+  padding-top: 5vh;
+  text-align: center;
+}
+.disk-field .label {
+  position: absolute;
+  z-index: 21;
+}
+.grid-wrapper {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  grid-template-rows: repeat(auto, 1fr);
+}
+
+#button-reload{
+  overflow: auto;
+}
+ /* disk */
+
+.disk {
+  position: relative;
+  content: "";
+
+  height: 20vh;
+  width: 20vh;
+
+  border-radius: 50%;
+  background: gray;
+  background-size: 88%;
+ }
+
+.disk:after {
+  background: rgb(204, 127, 13);
+  border-radius: 50%;
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 40%;
+  height: 40%;
+  z-index: 20;
+}
+
+.seconds {
+  background: #000;
+  height: 45%;
+  left: 49.5%;
+  position: absolute;
+  top: 14%;
+  transform-origin: 50% 80%;
+  width: 2px;
+  z-index: 10;
+}
+
+@keyframes rotate {
+  100% {
+    transform: rotateZ(360deg);
+  }
+}
+
+.animation {
+  animation: rotate 60s infinite steps(60);
+}
+
+.animation-paused {
+  animation-play-state: paused;
+}
+
+.seconds-container {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+}

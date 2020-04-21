@@ -75,16 +75,21 @@ def html_page(fn):
         with HTML(output=None) as doc:
             with TopLevelTag("head") as head:
 
-                with Tag("meta", charset="utf-8") as meta:
+                with Tag("meta", is_single=True, charset="utf-8") as meta:
                     head += meta
 
-                with Tag("link", rel="stylesheet", href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css") as link:
+                with Tag("link", is_single=True, rel="stylesheet", href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css") as link:
+                    head += link
+
+                with Tag("link", is_single=True, rel="stylesheet", href="https://fonts.googleapis.com/css?family=Press+Start+2P&display=swap&subset=cyrillic") as link:
+                    head += link
+
+                with Tag("link", is_single=True, rel="stylesheet", href="/static/css/styles.css") as link:
                     head += link
 
                 with Tag("title") as title:
-                    title.text = "hello"
+                    title.text = "B6_13"
                     head += title
-
 
                 doc += head
 
@@ -92,16 +97,17 @@ def html_page(fn):
                 with Tag("h1", klass=("main-text",)) as h1:
                     h1.text = param
                     body += h1
+                    body += fn(param)
 
-                with Tag("div", klass=("container", "container-fluid"), id="lead") as div:
-                    with Tag("p") as paragraph:
-                        paragraph.text = fn(param)
-                        div += paragraph
+                with Tag("script", src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js") as script:
+                    body += script
 
-                    with Tag("img", is_single=True, src="/icon.png", data_image="responsive") as img:
-                        div += img
+                with Tag("script", src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js") as script:
+                    body += script
 
-                    body += div
+                with Tag("script", src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js") as script:
+                    body += script
+
 
             doc += body
             result = doc

@@ -1,9 +1,11 @@
-from bottle import route
-from bottle import run
-from bottle import HTTPError
+from bottle import *
 
 import album
 
+# Static CSS Files
+@route('/static/css/<filename:re:.*\.css>')
+def send_css(filename):
+    return static_file(filename, root='static/css')
 
 @route("/albums/<artist>")
 def albums(artist):

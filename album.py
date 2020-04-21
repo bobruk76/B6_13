@@ -32,12 +32,16 @@ def find(artist):
 
 @html_page
 def albums_get(artist):
+
+    def to_div(string):
+        return '<div class="disk-field disk"><p class="label">{}</p></div>'.format(string)
+
     albums_list = find(artist)
     if not albums_list:
-        message = "Альбомов {} не найдено".format(artist)
+        message = "Альбомов {} в нашей базе не найдено".format(artist)
         result = HTTPError(404, message)
     else:
-        album_names = [album.album for album in albums_list]
-        result = "Список альбомов {}<br>".format(artist)
-        result += "<br>".join(album_names)
+        album_names = list(map(to_div,[album.album for album in albums_list]))
+        result = "<h2>В нашей дискографии {} количество альбомов - {}</h2>".format(artist, len(album_names))
+        result += '<div class="grid-wrapper">{}</div>'.format("\n".join(album_names))
     return result
