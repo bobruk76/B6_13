@@ -8,6 +8,15 @@
         <link rel="stylesheet" href="/static/css/form_style.css">
     </head>
     <body>
+        <div class="wrapper-first-page">
+            <header>
+                <nav class="site-menu">
+                    <ul>
+                        <li><a href="/">home</a></li>
+                    </ul>
+                </nav>
+            </header>
+        </div>
         <main>
             <section class="sixth-section">
                 <h1>

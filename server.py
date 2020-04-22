@@ -1,3 +1,11 @@
+    # для форматирования HTML можно установить bs4
+    # pip install bs4
+    # многие решения взяты из предыдущих уроков
+    # запустите
+    # http://localhost:8080/
+    # там и GET и POST запросы можно сделать)))
+    # пояснений много не писал...сразу сорри!!
+
 from bottle import *
 
 import album
@@ -25,14 +33,14 @@ def get_form():
 @post("/albums/")
 def set_form():
 
-    album_data = {
-        "year": request.forms.get("year"),
-        "artist": request.forms.get("artist"),
-        "genre": request.forms.get("genre"),
-        "album": request.forms.get("album")
+    form_data = {
+        "year": request.forms.year,
+        "artist": request.forms.artist,
+        "genre": request.forms.genre,
+        "album": request.forms.album
     }
 
-    return album_data
+    return album.request_data(form_data)
 
 if __name__ == "__main__":
     run(host="localhost", port=8080, debug=True)

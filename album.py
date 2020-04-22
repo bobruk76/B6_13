@@ -3,8 +3,9 @@ from sqlalchemy.orm import sessionmaker
 from sqlalchemy.ext.declarative import declarative_base
 from doc_format import html_page
 from bottle import HTTPError
-
-DB_PATH = "sqlite:///albums.sqlite3"
+import datetime
+import re
+DB_PATH = "sqlite:///albums.sqlite3?charset=utf8"
 Base = declarative_base()
 
 class Album(Base):
@@ -59,18 +60,32 @@ def albums_get(artist):
     return {'error': error, 'result': result}
 
 def request_data(album_data):
+    # функции валидации данных
+    def valid_year(year_text):
+        pattern = re.compile('[1-2]\d\d\d')
+        return pattern.match(year_text)
+
     # создаем новый альбом
     try:
-        new_album = Album(
-            year = album_data['year'],
-            artist = album_data['artist'],
-            genre = album_data['genre'],
-            album = album_data['album']
-        )
-        session = connect_db()
-        session.add(new_album)
-        session.commit()
-        result = 'Данные успешно внесены!'
+        if valid_year(album_data['year']):
+            new_album = Album(
+                year = int(album_data['year']),
+                artist = album_data['artist'],
+                genre = album_data['genre'],
+                album = album_data['album']
+            )
+            session = connect_db()
+            search_list=list(session.query(Album).filter(Album.album == new_album.album).filter(Album.artist == new_album.artist).filter(Album.genre == new_album.genre).filter(Album.year == new_album.year))
+            if len(search_list) != 0:
+                message = "Альбом {} {} года в дискографии исполнителя {}  в жанре {} есть!".format(new_album.album,new_album.year,new_album.artist,new_album.genre)
+                result = HTTPError(409, message)
+            else:
+                session.add(new_album)
+                session.commit()
+                result = 'Данные успешно внесены!'
+        else:
+            message = "Данные неверного формата!"
+            result = HTTPError(409, message)
     except:
         message = "Внести данные не удалось!((("
         result = HTTPError(418, message)
