@@ -15,7 +15,7 @@
                 </h1>
                 <div class="like-hr"></div>
                 <div class="second-block">
-                    <form id="album-form" class="album-form" action="/albums" method="POST">
+                    <form id="album-form" class="like-form" action="/albums/" method="POST">
                         <input id="year"  class="form-field" type="text" name="year" required  placeholder="Год">
                         <input id="artist"  class="form-field" type="text" name="artist" required  placeholder="Исполнитель">
                         <input id="genre"  class="form-field" type="text" name="genre" required  placeholder="Жанр">

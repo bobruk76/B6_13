@@ -47,11 +47,32 @@ def albums_get(artist):
         return '<div class="disk-field disk"><p class="label">{}</p></div>'.format(string)
 
     albums_list = find(artist)
+    error = False
     if not albums_list:
         message = "Альбомов {} в нашей базе не найдено".format(artist)
         result = HTTPError(404, message)
+        error = True
     else:
         album_names = list(map(to_div,[album.album for album in albums_list]))
         result = "<h2>В нашей дискографии {} количество альбомов - {}</h2>".format(artist, len(album_names))
         result += '<div class="grid-wrapper">{}</div>'.format("\n".join(album_names))
+    return {'error': error, 'result': result}
+
+def request_data(album_data):
+    # создаем новый альбом
+    try:
+        new_album = Album(
+            year = album_data['year'],
+            artist = album_data['artist'],
+            genre = album_data['genre'],
+            album = album_data['album']
+        )
+        session = connect_db()
+        session.add(new_album)
+        session.commit()
+        result = 'Данные успешно внесены!'
+    except:
+        message = "Внести данные не удалось!((("
+        result = HTTPError(418, message)
+
     return result

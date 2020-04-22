@@ -1,4 +1,5 @@
 import re
+from bottle import HTTPError
 try:
     # Чтобы текст был лесенкой установите bs4
     # pip install bs4
@@ -69,9 +70,10 @@ class HTML(TopLevelTag):
             with open(str(self.output), "w") as f:
                 f.write(out_str)
 
+# шаблон-обертка для вывода данных в HTML
 def html_page(fn):
     def wrapp(param):
-        result = ''
+        fn_result = {}
         with HTML(output=None) as doc:
             with TopLevelTag("head") as head:
 
@@ -97,7 +99,8 @@ def html_page(fn):
                 with Tag("h1", klass=("main-text",)) as h1:
                     h1.text = param
                     body += h1
-                    body += fn(param)
+                    fn_result = fn(param)
+                    body += '' if fn_result['error'] else fn_result['result']
 
                 with Tag("script", src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js") as script:
                     body += script
@@ -110,6 +113,5 @@ def html_page(fn):
 
 
             doc += body
-            result = doc
-        return result
+        return fn_result['result'] if fn_result['error'] else str(doc)
     return wrapp
